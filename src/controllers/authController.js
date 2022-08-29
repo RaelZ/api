@@ -14,6 +14,14 @@ class AuthController {
     const userAccount = await UsersAccountModel.findOne({
       where: { cpf: user.cpf },
     })
+      .then((userAcc) => userAcc)
+      .catch(() => ({
+        account: "no Data",
+        agency: "no Data",
+        balance: "no Data",
+        bank: "no Data",
+        saveBalance: 0,
+      }))
 
     if (!user) return res.status(404).json({ error: "NOT FOUND!" })
 
