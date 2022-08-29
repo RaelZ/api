@@ -10,23 +10,9 @@ class AuthController {
     const user = await UsersModel.findOne({
       where: { email: email.toLowerCase() },
     })
-    console.log('HMMM', user)
     const userAccount = await UsersAccountModel.findOne({
       where: { cpf: user.cpf },
-    })
-      .then((userAcc) => {
-        console.log('userAcc', userAcc)
-
-        return userAcc
-      })
-      .catch(() => ({
-        account: "no Data",
-        agency: "no Data",
-        balance: "no Data",
-        bank: "no Data",
-        saveBalance: 0,
-      }))
-      console.log('userAccount', userAccount)
+    }).then((userAcc) => userAcc)
 
     if (!user) return res.status(404).json({ error: "NOT FOUND!" })
 
@@ -36,7 +22,16 @@ class AuthController {
     const token = sign({ userId: user.dataValues.id }, process.env.JWT_SECRET, {
       expiresIn: rememberMe ? "7d" : "1h",
     })
-    const sendUser = { ...user.dataValues, userAccount: userAccount.dataValues }
+    const sendUser = {
+      ...user.dataValues,
+      userAccount: userAccount.dataValues || {
+        account: "no Data",
+        agency: "no Data",
+        balance: "no Data",
+        bank: "no Data",
+        saveBalance: 0,
+      },
+    }
     delete sendUser.password
 
     return res.status(200).json({ token, user: sendUser })
