@@ -24,7 +24,7 @@ class AuthController {
     })
     const sendUser = {
       ...user.dataValues,
-      userAccount: userAccount.dataValues || {
+      userAccount: userAccount?.dataValues || {
         account: "no Data",
         agency: "no Data",
         balance: "no Data",
