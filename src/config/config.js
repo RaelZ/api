@@ -10,12 +10,8 @@ module.exports = {
     logging: true
   },
   test: {
-    username: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB_NAME,
-    host: process.env.DB_HOST,
-    dialect: process.env.DB_DIAL,
-    logging: true
+    connectionString: process.env.DATABASE_URL,
+    ssl: { rejectUnauthorized: false }
   },
   production: {
     username: process.env.DB_USER,
