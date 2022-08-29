@@ -10,11 +10,15 @@ class AuthController {
     const user = await UsersModel.findOne({
       where: { email: email.toLowerCase() },
     })
-
+    console.log('HMMM', user)
     const userAccount = await UsersAccountModel.findOne({
       where: { cpf: user.cpf },
     })
-      .then((userAcc) => userAcc)
+      .then((userAcc) => {
+        console.log('userAcc', userAcc)
+
+        return userAcc
+      })
       .catch(() => ({
         account: "no Data",
         agency: "no Data",
@@ -22,6 +26,7 @@ class AuthController {
         bank: "no Data",
         saveBalance: 0,
       }))
+      console.log('userAccount', userAccount)
 
     if (!user) return res.status(404).json({ error: "NOT FOUND!" })
 
