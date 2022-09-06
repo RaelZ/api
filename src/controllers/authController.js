@@ -5,13 +5,13 @@ const UsersAccountModel = require("../database/models/usersAccountModel")
 
 class AuthController {
   auth = async (req, res) => {
-    const { email, password, rememberMe } = req.body
+    const { cpf, password, rememberMe } = req.body
 
     const user = await UsersModel.findOne({
-      where: { email: email.toLowerCase() },
+      where: { cpf: cpf },
     })
     const userAccount = await UsersAccountModel.findOne({
-      where: { cpf: user.cpf },
+      where: { cpf: cpf },
     }).then((userAcc) => userAcc)
 
     if (!user) return res.status(404).json({ error: "NOT FOUND!" })
