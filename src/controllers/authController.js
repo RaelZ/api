@@ -7,21 +7,15 @@ class AuthController {
   auth = async (req, res) => {
     const { cpf, password, rememberMe } = req.body
 
-    const user = await UsersModel.findOne({
-      where: { cpf: cpf },
-    })
-    const userAccount = await UsersAccountModel.findOne({
-      where: { cpf: cpf },
-    }).then((userAcc) => userAcc)
-
+    const user = await UsersModel.findOne({ where: { cpf: cpf } })
     if (!user) return res.status(404).json({ error: "NOT FOUND!" })
+  
+    const userAccount = await UsersAccountModel.findOne({ where: { cpf: cpf } }).then((userAcc) => userAcc)
 
     const match = await bcrypt.compare(password, user.dataValues.password)
     if (!match) return res.status(401).json({ error: "UNAUTHORIZED!" })
 
-    const token = sign({ userId: user.dataValues.id }, process.env.JWT_SECRET, {
-      expiresIn: rememberMe ? "7d" : "1h",
-    })
+    const token = sign({ userId: user.dataValues.id }, process.env.JWT_SECRET, { expiresIn: rememberMe ? "7d" : "1h" })
     const sendUser = {
       ...user.dataValues,
       userAccount: userAccount?.dataValues || {

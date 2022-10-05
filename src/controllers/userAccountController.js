@@ -1,15 +1,10 @@
-const bcrypt = require("bcrypt")
 const UsersAccountsModel = require("../database/models/usersAccountModel")
 const UsersModel = require("../database/models/usersModel")
 
 class UserController {
   async findAll(req, res) {
     return await UsersAccountsModel.findAll()
-      .then((users) =>
-        users.length > 0
-          ? res.status(200).json(users)
-          : res.status(204).json(users)
-      )
+      .then((users) => users.length > 0 ? res.status(200).json(users) : res.status(204).json(users))
       .catch((err) => res.status(400).json(err))
   }
 
@@ -17,9 +12,7 @@ class UserController {
     const { userId } = req.params
     const user = await UsersModel.findOne({ where: { id: userId } })
 
-    const userAccount = await UsersAccountsModel.findOne({
-      where: { cpf: user.dataValues.cpf },
-    })
+    const userAccount = await UsersAccountsModel.findOne({ where: { cpf: user.dataValues.cpf } })
       .then((userAccount) => userAccount.dataValues)
       .catch(() => ({
         account: "no Data",
@@ -45,11 +38,7 @@ class UserController {
       bank,
       saveBalance,
     })
-      .then((userAccount) =>
-        res
-          .status(200)
-          .json({ ...user.dataValues, userAccount: userAccount.dataValues })
-      )
+      .then((userAccount) => res.status(200).json({ ...user.dataValues, userAccount: userAccount.dataValues }))
       .catch(() => res.status(400).json("Bad request"))
   }
 
@@ -57,9 +46,7 @@ class UserController {
     const { userId } = req.params
     const user = await UsersModel.findOne({ where: { id: userId } })
 
-    await UsersAccountsModel.update(req.body, {
-      where: { cpf: user.dataValues.cpf },
-    })
+    await UsersAccountsModel.update(req.body, { where: { cpf: user.dataValues.cpf } })
       .then((userAccount) => res.status(200).json(userAccount))
       .catch(() => res.status(400).json("Bad request"))
   }
@@ -68,9 +55,7 @@ class UserController {
     const { userId } = req.params
     const user = await UsersModel.findOne({ where: { id: userId } })
 
-    await UsersAccountsModel.destroy({
-      where: { cpf: user.dataValues.cpf },
-    })
+    await UsersAccountsModel.destroy({ where: { cpf: user.dataValues.cpf } })
       .then((userAccount) => res.status(200).json(userAccount))
       .catch(() => res.status(400).json("Bad request"))
   }

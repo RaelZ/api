@@ -1,7 +1,7 @@
-'use strict';
+'use strict'
 
 module.exports = {
-  async up (queryInterface, Sequelize) {
+  async up(queryInterface, Sequelize) {
     await queryInterface.createTable('user_account', {
       cpf: {
         type: Sequelize.STRING,
@@ -32,11 +32,11 @@ module.exports = {
       saveBalance: {
         type: Sequelize.DECIMAL,
         allowNull: false
-      },
+      }
     })
   },
 
-  async down (queryInterface, Sequelize) {
+  async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('user_account')
   }
-};
+}

@@ -128,3 +128,5 @@ dist
 
 *server.cert
 *server.key
+
+.prettierrc.json

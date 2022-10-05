@@ -1,5 +1,5 @@
-require("dotenv").config()
-const fs = require("fs")
+require('dotenv').config()
+const fs = require('fs')
 
 module.exports = {
   development: {
@@ -8,25 +8,28 @@ module.exports = {
     database: process.env.DB_NAME,
     host: process.env.DB_HOST,
     dialect: process.env.DB_DIAL,
-    logging: true,
+    logging: true
   },
   test: {
-    use_env_variable: "DATABASE_URL",
+    use_env_variable: 'DATABASE_URL',
     dialect: process.env.DB_DIAL,
     dialectOptions: {
       ssl: {
         require: true,
-        rejectUnauthorized: false,
-      },
+        rejectUnauthorized: false
+      }
     },
-    logging: true,
+    logging: true
   },
   production: {
-    username: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB_NAME,
-    host: process.env.DB_HOST,
+    use_env_variable: 'DATABASE_URL',
     dialect: process.env.DB_DIAL,
-    logging: false,
-  },
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false
+      }
+    },
+    logging: false
+  }
 }
